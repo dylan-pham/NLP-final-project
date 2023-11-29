@@ -1,4 +1,5 @@
 import nltk 
+import json
 
 def generate_tuples_from_file(training_file_path: str) -> list:
     """
@@ -12,22 +13,17 @@ def generate_tuples_from_file(training_file_path: str) -> list:
     Return:
         a list of lists of tokens and a list of int labels
     """
-    # PROVIDED
-    f = open(training_file_path, "r", encoding="utf8")
     X = []
     y = []
-    for review in f:
-        if len(review.strip()) == 0:
-            continue
-        dataInReview = review.strip().split("\t")
-        if len(dataInReview) != 3:
-            continue
-        else:
-            t = tuple(dataInReview)
-            if (not t[2] == '0') and (not t[2] == '1'):
-                print("WARNING")
-                continue
-            X.append(nltk.word_tokenize(t[1]))
-            y.append(int(t[2]))
+
+    with open(training_file_path, 'r') as f:
+        for review in f:
+            review_as_dict = json.loads(review)
+
+            stars = int(review_as_dict["stars"])
+            text = review_as_dict["text"].replace("\n", " ")
+
+            X.append(nltk.word_tokenize(text))
+            y.append(stars)
     f.close()  
     return (X, y)
