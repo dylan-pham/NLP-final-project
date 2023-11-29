@@ -3,7 +3,7 @@ import json
 
 from sklearn.model_selection import train_test_split
 
-def generate_tuples_from_file(training_file_path: str, testing=False) -> list:
+def generate_tuples_from_file(training_file_path: str, num_samples=10) -> list:
     """
     Generates data from file formated like:
 
@@ -21,7 +21,7 @@ def generate_tuples_from_file(training_file_path: str, testing=False) -> list:
     with open(training_file_path, 'r') as f:
         count = 0
         for review in f:
-            if count == 10 and testing:
+            if count == num_samples:
                 break
             review_as_dict = json.loads(review)
 
