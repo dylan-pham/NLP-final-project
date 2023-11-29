@@ -1,6 +1,8 @@
 import nltk 
 import json
 
+from sklearn.model_selection import train_test_split
+
 def generate_tuples_from_file(training_file_path: str) -> list:
     """
     Generates data from file formated like:
@@ -17,7 +19,11 @@ def generate_tuples_from_file(training_file_path: str) -> list:
     y = []
 
     with open(training_file_path, 'r') as f:
+        count = 0
         for review in f:
+            count += 1
+            if count == 10:
+                break
             review_as_dict = json.loads(review)
 
             stars = int(review_as_dict["stars"])
@@ -27,3 +33,16 @@ def generate_tuples_from_file(training_file_path: str) -> list:
             y.append(stars)
     f.close()  
     return (X, y)
+
+def split_data(data, test_size=0.2):
+    """
+    Splits data into training and test sets
+
+    Parameters:
+        data - tuple of lists of tokens and list of int labels
+    Return:
+        tuple of training and test sets
+    """
+    X, y = data
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
+    return ((X_train, y_train), (X_test, y_test))
