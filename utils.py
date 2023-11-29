@@ -3,7 +3,7 @@ import json
 
 from sklearn.model_selection import train_test_split
 
-def generate_tuples_from_file(training_file_path: str) -> list:
+def generate_tuples_from_file(training_file_path: str, testing=False) -> list:
     """
     Generates data from file formated like:
 
@@ -21,8 +21,7 @@ def generate_tuples_from_file(training_file_path: str) -> list:
     with open(training_file_path, 'r') as f:
         count = 0
         for review in f:
-            count += 1
-            if count == 10:
+            if count == 10 and testing:
                 break
             review_as_dict = json.loads(review)
 
@@ -31,6 +30,8 @@ def generate_tuples_from_file(training_file_path: str) -> list:
 
             X.append(nltk.word_tokenize(text))
             y.append(stars)
+
+            count += 1
     f.close()  
     return (X, y)
 
