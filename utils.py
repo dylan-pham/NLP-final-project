@@ -1,5 +1,6 @@
 import nltk 
 import json
+import numpy as np
 
 from sklearn.model_selection import train_test_split
 
@@ -108,3 +109,18 @@ def featurize(vocab: list, data_to_be_featurized_X: list, binary: bool = False, 
         print("Vectorization completed.")
 
     return vectorized_data
+
+def get_one_hot_encodings(labels: list) -> list:
+    """
+    Given a list of labels, return a list of one-hot encodings.
+    Args:
+        labels: a list of labels
+    Returns:
+        a list of one-hot encodings of the labels
+    """
+    one_hot_encodings = []
+    for label in labels:
+        one_hot_encoding = [0, 0, 0, 0, 0]
+        one_hot_encoding[label - 1] = 1
+        one_hot_encodings.append(np.array(one_hot_encoding))
+    return np.array(one_hot_encodings)
