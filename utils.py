@@ -120,7 +120,7 @@ def get_one_hot_encodings(labels: list) -> list:
     """
     one_hot_encodings = []
     for label in labels:
-        one_hot_encoding = [0, 0, 0, 0, 0]
-        one_hot_encoding[label - 1] = 1
+        one_hot_encoding = [0.0, 0.0, 0.0, 0.0, 0.0]
+        one_hot_encoding[label - 1] = 1.0
         one_hot_encodings.append(np.array(one_hot_encoding))
-    return np.array(one_hot_encodings)
+    return np.array(one_hot_encodings, dtype='float32')
