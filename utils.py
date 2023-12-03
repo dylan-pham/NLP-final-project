@@ -19,7 +19,7 @@ def generate_tuples_from_file(training_file_path: str, num_samples=10) -> list:
     X = []
     y = []
 
-    with open(training_file_path, 'r') as f:
+    with open(training_file_path, 'r', encoding='utf-8') as f:
         count = 0
         for review in f:
             if count == num_samples:
