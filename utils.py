@@ -124,3 +124,27 @@ def get_one_hot_encodings(labels: list) -> list:
         one_hot_encoding[label - 1] = 1.0
         one_hot_encodings.append(np.array(one_hot_encoding))
     return np.array(one_hot_encodings, dtype='float32')
+
+from sklearn.metrics import classification_report
+
+def get_prfa(dev_y: list, preds: list, verbose=False) -> tuple:
+    """
+    Calculate precision, recall, f1, and accuracy for a given set of predictions and labels.
+    Args:
+        dev_y: list of labels
+        preds: list of predictions
+        verbose: whether to print the metrics
+    Returns:
+        tuple of precision, recall, f1, and accuracy
+    """
+
+    report = classification_report(dev_y, preds, output_dict=True)
+    accuracy = report['accuracy']
+    precision = report['macro avg']['precision']
+    recall = report['macro avg']['recall']
+    f1_score = report['macro avg']['f1-score']
+
+    if verbose:
+        print(precision, recall, f1_score, accuracy)
+
+    return (precision, recall, f1_score, accuracy)
